@@ -20,10 +20,6 @@ app.use("/questions", questionRoutes);
 app.use("/answer", answerRoutes);
 app.use('/chatbot', chatbotRoutes);
 
-app.get('*', function(req, res){
-  res.sendFile(path.join(__dirname, '../client/build/index.html'))
-})
-
 const PORT = process.env.PORT || 7001;
 
   app.listen(PORT, () => {
