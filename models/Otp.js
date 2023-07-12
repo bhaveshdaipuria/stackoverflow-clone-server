@@ -9,11 +9,6 @@ const OTPSchema = new Schema({
     otp: {
         type: Number,
         required: true,
-    }, 
-    expireAt: {
-        type: Date,
-        default: Date.now,
-        expires: 300
     }
 })
 

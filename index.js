@@ -6,7 +6,6 @@ import questionRoutes from "./routes/Questions.js";
 import answerRoutes from "./routes/Answers.js";
 import connectDB from "./connectMongoDb.js";
 import chatbotRoutes from './routes/chatbot.js';
-import path from 'path';
 
 dotenv.config();
 connectDB();

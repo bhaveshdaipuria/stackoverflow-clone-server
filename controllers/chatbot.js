@@ -1,6 +1,12 @@
 import { Configuration, OpenAIApi } from "openai";
 import nodemailer from "nodemailer";
-import OTPSchema from'../models/Otp.js'
+import OTPSchema from'../models/Otp.js';
+
+function expireOTP(setUser){
+    setTimeout(async()=>{
+        await OTPSchema.deleteOne(setUser)
+    }, 300000)
+}
 
 export const generateOTP = async(req, res)=>{
 
@@ -31,13 +37,15 @@ export const generateOTP = async(req, res)=>{
              }
             })
         if(generatedOTP){
-            await OTPSchema.findOneAndReplace({user}, {user: user, otp: otp})
+            await OTPSchema.findOneAndReplace({user}, {user: user, otp: otp});
+            expireOTP({user: user})
         }
         else{
             await OTPSchema.create({
                 user: user,
                 otp: otp
             })
+            expireOTP({user: user})
         }
         } catch (error) {
         console.error(error)
