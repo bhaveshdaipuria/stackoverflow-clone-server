@@ -77,22 +77,15 @@ export const askChatbot = async (req, res) => {
 	});
 
 	try {
-
 		const response = await geminiBot.models.generateContent({
 			model: process.env.GEMINI_MODEL,
-			contents: [
-				{
-					role: "user",
-					parts: [
-						{ text: chatbotQues }
-					]
-				}
-			]
+			contents: chatbotQues,
+			config: {
+				systemInstruction: `You are a coding assistant and you only answer programming related questions. If the question is not related to programming, respond with "I am a coding assistant and I can only help with programming related questions."`,
+			},
 		});
 
-		const parts = response.candidates?.[0]?.content?.parts || [];
-		answer = parts.map(p => p.text).join(" ") || "No response";
-		res.status(200).json({ message: answer });
+		return res.status(200).json({ message: response.text });
 	} catch (error) {
 		console.error(error.type);
 		if (error.type === "insufficient_quota") {
